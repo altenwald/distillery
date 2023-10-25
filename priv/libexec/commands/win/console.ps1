@@ -7,7 +7,7 @@ $boot = (join-path $Env:REL_DIR $Env:REL_NAME)
 $argv = @("-boot", $boot)
 $argv += @("-config", $Env:SYS_CONFIG_PATH)
 $argv += @("-args_file", $Env:VMARGS_PATH)
-$argv += @("-user", "Elixir.IEx.CLI")
+$argv += @("-user", "elixir")
 $argv += @("-extra", "--no-halt", "+iex")
 
 run-hooks -Phase pre_start

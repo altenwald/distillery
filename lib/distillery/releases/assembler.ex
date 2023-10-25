@@ -4,6 +4,7 @@ defmodule Distillery.Releases.Assembler do
   struct. It creates the release directory, copies applications, and generates release-specific
   files required by `:systools` and `:release_handler`.
   """
+  alias Config.Reader, as: ConfigReader
   alias Distillery.Releases.Config
   alias Distillery.Releases.Release
   alias Distillery.Releases.Environment
@@ -220,7 +221,7 @@ defmodule Distillery.Releases.Assembler do
     end
   rescue
     e in [File.Error] ->
-      {:error, {:assembler, {e, System.stacktrace()}}}
+      {:error, {:assembler, {e, __STACKTRACE__}}}
   catch
     :error, {:assembler, _mod, _reason} = err ->
       {:error, err}
@@ -610,7 +611,7 @@ defmodule Distillery.Releases.Assembler do
     end
   end
 
-  # Generated when Mix.Config provider is active, default + provided sys.config
+  # Generated when Config provider is active, default + provided sys.config
   defp generate_sys_config(%Release{profile: %Profile{} = profile} = rel) do
     overlay_vars = profile.overlay_vars
     config_exs_path = profile.config
@@ -655,7 +656,7 @@ defmodule Distillery.Releases.Assembler do
                {:ok, tokens, _} <- :erl_scan.string(String.to_charlist(templated)),
                {:ok, sys_config} <- :erl_parse.parse_term(tokens),
                :ok <- validate_sys_config(sys_config),
-               merged <- Mix.Config.merge(base_config, sys_config) do
+               merged <- ConfigReader.merge(base_config, sys_config) do
             merged
           else
             err ->

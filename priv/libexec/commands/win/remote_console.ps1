@@ -14,7 +14,7 @@ if ($bin.StartsWith($Env:RELEASE_ROOT_DIR)) {
 
 $argv = @("-hidden", "-noshell")
 $argv += @("-boot", $start_clean)
-$argv += @("-user", "Elixir.IEx.CLI")
+$argv += @("-user", "elixir")
 $argv += @("-$Env:NAME_TYPE", $id)
 $argv += @("-setcookie", $Env:COOKIE)
 $argv += @("-extra", "--no-halt", "+iex")

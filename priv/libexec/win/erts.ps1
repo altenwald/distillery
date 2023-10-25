@@ -257,7 +257,7 @@ function iex {
     }
     $werl = (join-path $bin werl)
     $base_args = erl-args
-    & $werl @base_args -user Elixir.IEx.CLI -extra --no-halt +iex @args
+    & $werl @base_args -user elixir -extra --no-halt +iex @args
 }
 
 # Echoes the current ERTS version
